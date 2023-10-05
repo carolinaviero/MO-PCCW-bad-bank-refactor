@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { createContext } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import NavBar from './components/NavBar';
+import Home from './pages/Home';
+import CreateAccount from './pages/CreateAccount';
+import Login from './pages/Login';
+import Deposit from './pages/Deposit';
+import Withdraw from './pages/Withdraw';
+import Balance from './pages/Balance';
+import AllData from './pages/AllData';
 
-function App() {
+const UserContext = createContext(null);
+
+const App = () => {
+  const initialUserValue = {
+    users: [
+      {
+        name: 'abel',
+        email: 'abel@mit.edu',
+        password: 'secret',
+        balance: 100,
+      },
+    ],
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <UserContext.Provider value={initialUserValue}>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/createaccount" element={<CreateAccount />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/deposit" element={<Deposit />} />
+          <Route path="/withdraw" element={<Withdraw />} />
+          <Route path="/balance" element={<Balance />} />
+          <Route path="/alldata" element={<AllData />} />
+        </Routes>
+      </UserContext.Provider>
     </div>
   );
-}
+};
 
-export default App;
+export { App, UserContext };
